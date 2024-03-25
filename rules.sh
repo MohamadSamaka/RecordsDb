@@ -1,0 +1,1 @@
+POSITIVE_NUMBER_ONLY=^[1-9][0-9]*$
