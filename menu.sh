@@ -82,9 +82,11 @@ app_index(){
                 clear;
                 print_sorted_records
             ;;
-            x)  exit;
+            x)  
+                exit;
             ;;
-            X)  exit;
+            X)  
+                exit;
             ;;
             *)  
                 clear;

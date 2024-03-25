@@ -22,21 +22,13 @@ sub_operation_menu(){
 
     IFS=$'\n' matches_array=($(printf "%s\n" "${matches_array[@]}" | sort))
     unset IFS
-    # printf "%s\n" "${sorted_array[@]}" > /dev/tty
 
     local length=${#matches_array[@]}
         
     if (($length == 1)); then #if grep got only 1 match just return it
         echo "${matches_array[0]}"
         return 0
-    # elif ((length == 0)) then
-    #     echo ""
-    #     return 1
     fi
-    # if [[ $length -eq 1 && -z $return_val ]]; then
-    #     echo "${matches_array[0]}"
-    #     return 0
-    # fi
 
     while true; do
         clear > /dev/tty;
@@ -90,9 +82,3 @@ input_handler(){
     done
     return 0;
 }
-
-# create_files_as_necessary(){
-#     if test -f "$RECORD_FILE"; then
-#         touch
-#     fi
-# }

@@ -13,28 +13,26 @@ add_record(){
 
     if [ ! -z "$search_result" ]; then # checks if record alread exist
         update_record_amount "$record_name" "$amount_to_add" "$search_result"
+        log_event "update_record_amount" $RECORD_FILE $amount
         return 0;
     fi
 
     echo "$record_name, $amount_to_add" >> $RECORD_FILE
-    log_event "add_record" $name $amount
+    log_event "add_record" $RECORD_FILE $amount
     colored_message "[+] Recorded been added successfully!" $green
 }
 
-remove_record(){
-    local record_name="$1"
-    local amount_to_add="$2"
-    local search_result=$(search_record "$record_name")
+# remove_record(){
+#     local record_name="$1"
+#     local amount_to_add="$2"
+#     local search_result=$(search_record "$record_name")
 
-    if [ ! -z "$search_result" ]; then # checks if record alread exist
-        update_record_amount "$record_name" "$amount_to_add" "$search_result"
-        return 0;
-    fi
-
-    # echo "$record_name, $amount_to_add" >> $RECORD_FILE
-    # log_event "add_record" $name $amount
-    colored_message "[+] Recorded been added successfully!" $green
-}
+#     if [ ! -z "$search_result" ]; then # checks if record alread exist
+#         update_record_amount "$record_name" "$amount_to_add" "$search_result"
+#         return 0;
+#     fi
+#     colored_message "[+] Recorded been added successfully!" $green
+# }
 
 search_record() {
     local pattern="^$1"
@@ -58,14 +56,14 @@ update_record_name(){
 
     if [ -z "$search_result" ]; then # checks if record alread exist
         colored_message "$RECORD_MISSING" $red
+        log_event "update_record_name" $RECORD_FILE "FAILURE"
         return 1
     fi
 
     local current_name="${search_result%%,*}"
     local current_amount="${search_result#*, }"
     sed -i "s/^$search_result/$new_name, $current_amount/" "$RECORD_FILE"
-    log_event "update_record_amount" $record_name $amount_to_add
-    log_event "update_record_amount" "Success"
+    log_event "update_record_name" $RECORD_FILE "SUCCESS"
     colored_message "[+] Recorded been updated successfully!" $green
     return 0;
     
@@ -101,6 +99,7 @@ update_record_amount(){
         colored_message "$UPDATE_SUCESS" $green > /dev/tty
         sed -i "s/^$search_result/$current_name, $new_amount/" "$RECORD_FILE"
     fi
+    log_event "update_record_amount" $RECORD_FILE "SUCCESS"
     echo ""
 }
 
